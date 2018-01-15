@@ -1,0 +1,2 @@
+include testhelpers/version.txt
+include testhelpers/app.cfg

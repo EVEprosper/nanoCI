@@ -1,0 +1,8 @@
+[report]
+    omit = 
+        testhelpers/_version.py
+        testhelpers/__init__.py
+        testhelpers/exceptions.py
+
+[paths]
+    source = testhelpers
