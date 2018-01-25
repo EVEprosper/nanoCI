@@ -4,6 +4,8 @@ from plumbum import local
 import pytest
 
 from testhelpers import _version
+import helpers
+
 
 class TestCLI:
     """validate cli launches and works as users expect"""
