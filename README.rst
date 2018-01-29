@@ -28,14 +28,14 @@ TODO
 
 .. _plumbum: http://plumbum.readthedocs.io/en/latest/cli.html
 
-.. |Build Status| image:: https://travis-ci.org/EVEprosper/TestHelpers.svg?branch=master
-    :target: https://travis-ci.org/EVEprosper/TestHelpers
-.. |Coverage Status| image:: https://coveralls.io/repos/github/EVEprosper/TestHelpers/badge.svg?branch=master
-    :target: https://coveralls.io/github/EVEprosper/TestHelpers?branch=master
-.. |PyPI Badge| image:: https://badge.fury.io/py/TestHelpers.svg
-    :target: https://badge.fury.io/py/TestHelpers
-.. |Docs| image:: https://readthedocs.org/projects/TestHelpers/badge/?version=latest
-    :target: http://TestHelpers.readthedocs.io/en/latest/?badge=latest
+.. |Build Status| image:: https://travis-ci.org/EVEprosper/nanoCI.svg?branch=master
+    :target: https://travis-ci.org/EVEprosper/nanoCI
+.. |Coverage Status| image:: https://coveralls.io/repos/github/EVEprosper/nanoCI/badge.svg?branch=master
+    :target: https://coveralls.io/github/EVEprosper/nanoCI?branch=master
+.. |PyPI Badge| image:: https://badge.fury.io/py/nanoCI.svg
+    :target: https://badge.fury.io/py/nanoCI
+.. |Docs| image:: https://readthedocs.org/projects/nanoCI/badge/?version=latest
+    :target: http://nanoCI.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
 .. |Show Logo| image:: http://dl.eveprosper.com/podcast/logo-colour-17_sm2.png
