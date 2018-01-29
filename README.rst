@@ -1,8 +1,8 @@
 |Show Logo|
 
-===========
-TestHelpers
-===========
+======
+nanoCI
+======
 
 |Build Status| |Coverage Status| |PyPI Badge| |Docs|
 
