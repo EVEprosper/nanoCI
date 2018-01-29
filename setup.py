@@ -8,7 +8,7 @@ from setuptools.command.test import test as TestCommand
 
 HERE = path.abspath(path.dirname(__file__))
 
-__package_name__ = 'TestHelpers'
+__package_name__ = 'nanoCI'
 __library_name__ = 'testhelpers'
 
 def get_version(package_name):
@@ -66,16 +66,15 @@ class PyTest(TestCommand):
             '--cov=' + __library_name__,
             '--cov-report=term-missing',
             '--cov-config=.coveragerc',
-        ]    #load defaults here
+        ]
 
     def run_tests(self):
         import shlex
-        #import here, cause outside the eggs aren't loaded
         import pytest
         pytest_commands = []
-        try:    #read commandline
+        try:
             pytest_commands = shlex.split(self.pytest_args)
-        except AttributeError:  #use defaults
+        except AttributeError:
             pytest_commands = self.pytest_args
         errno = pytest.main(pytest_commands)
         exit(errno)
@@ -131,17 +130,20 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'RunTests=testhelpers.RunTests:run_main',
+            'nanoci=testhelpers.RunTests:run_main',
         ]
     },
     install_requires=[
         'ProsperCommon',
         'plumbum',
+        'coveralls[yaml]',
+        'emails',
     ],
     tests_require=[
         'pytest',
         'pytest_cov',
         'pytest-xdist',
+        'pyyaml',
     ],
     extras_require={
         'dev':[
