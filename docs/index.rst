@@ -36,7 +36,7 @@ Indices and tables
     :target: https://coveralls.io/github/EVEprosper/nanoCI?branch=master
 .. |PyPI Badge| image:: https://badge.fury.io/py/nanoCI.svg
     :target: https://badge.fury.io/py/nanoCI
-.. |Docs| .. image:: https://readthedocs.org/projects/nanoci/badge/?version=latest
+.. |Docs| image:: https://readthedocs.org/projects/nanoci/badge/?version=latest
     :target: http://nanoci.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 .. |ShowLogo| image:: http://dl.eveprosper.com/podcast/prosper_github.png
