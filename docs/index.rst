@@ -30,10 +30,10 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. |Build Status| image:: https://travis-ci.org/lockefox/nanoCI.svg?branch=master
-    :target: https://travis-ci.org/lockefox/nanoCI
-.. |Coverage Status| image:: https://coveralls.io/repos/github/lockefox/nanoCI/badge.svg?branch=master
-    :target: https://coveralls.io/github/lockefox/nanoCI?branch=master
+.. |Build Status| image:: https://travis-ci.org/EVEprosper/nanoCI.svg?branch=master
+    :target: https://travis-ci.org/EVEprosper/nanoCI
+.. |Coverage Status| image:: https://coveralls.io/repos/github/EVEprosper/nanoCI/badge.svg?branch=master
+    :target: https://coveralls.io/github/EVEprosper/nanoCI?branch=master
 .. |PyPI Badge| image:: https://badge.fury.io/py/nanoCI.svg
     :target: https://badge.fury.io/py/nanoCI
 .. |Docs| image:: https://readthedocs.org/projects/nanoCI/badge/?version=latest
