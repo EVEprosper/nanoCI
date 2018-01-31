@@ -16,33 +16,6 @@ from . import exceptions
 
 HERE = path.abspath(path.dirname(__file__))
 
-
-#class Virtualenv():
-#    """virtualenv context manager"""
-#    def __init__(self, venv_name, which_python, cwd='', logger=p_logging.DEFAULT_LOGGER):
-#        self.venv_name = venv_name
-#        self.which_python = which_python
-#        self.cwd = cwd
-#        if not self.cwd:
-#            self.cwd = local.cwd
-#
-#        self.logger = logger
-#
-#        self.logger.info('--building virtualenv')
-#        try:
-#            self.activate_path = self.build_venv(venv_name, which_python)
-#        except Exception:
-#            self.logger.error('Unable to build virtualenv', exc_info=True)
-#            raise exceptions.FailedVirtualenvCreate()
-#
-#    def build_venv(self, venv_name, which_python):
-#        """TODO
-#
-#        """
-#        venv_log = local['virtualenv']
-
-
-
 def update_coveralls_config(
         path_to_coverage,
         coveralls_token,
