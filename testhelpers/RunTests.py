@@ -79,9 +79,6 @@ def update_coveralls_config(
     with open(path_to_coverage, 'w') as cover_fh:
         cover_fh.writelines(lines)
 
-
-
-
 def parse_command_list(config_str):
     """turn multi-line config entry into a list of commands
 

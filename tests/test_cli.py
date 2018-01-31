@@ -44,6 +44,24 @@ def test_parse_command_exceptions():
     with pytest.raises(exceptions.VirtualenvException):
         command, arguments = RunTests.RunTestsCLI.parse_command(dummy_cli, 'pip install plumbum')
 
+def test_parse_command_list():
+    """validate parse_command_list behavior"""
+    easy_command = '''command1
+command2
+command3
+'''
+    assert RunTests.parse_command_list(easy_command) == ['command1', 'command2', 'command3']
+
+    weird_command = '''
+
+command1
+command2
+
+command3
+'''
+
+    assert RunTests.parse_command_list(weird_command) == ['command1', 'command2', 'command3']
+
 def test_update_coveralls():
     """validate RunTests.update_coveralls_config behavior"""
     with tempfile.TemporaryDirectory() as tempdir:
