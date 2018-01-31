@@ -16,7 +16,7 @@ import testhelpers.RunTests as RunTests
 def test_parse_command():
     """validate RunTests.parse_command behavior"""
     dummy_command = 'echo "hello world"'
-    command, arguments = RunTests.parse_command(dummy_command)
+    command, arguments = RunTests.RunTestsCLI.parse_command(None, dummy_command)
     assert isinstance(command, plumbum.commands.ConcreteCommand)
 
     command_returns = command(arguments)
@@ -25,7 +25,7 @@ def test_parse_command():
 def test_bad_command():
     """validate RunTests.parse_command throws expected errors"""
     with pytest.raises(plumbum.commands.processes.CommandNotFound):
-        command, arguments = RunTests.parse_command('garbage_command')
+        command, arguments = RunTests.RunTestsCLI.parse_command(None, 'garbage_command')
 
 def test_update_coveralls():
     """validate RunTests.update_coveralls_config behavior"""
