@@ -219,9 +219,9 @@ class RunTestsCLI(p_cli.ProsperApplication):
             self.logger.critical('Unable to execute test prep commands', exc_info=True)
             exit(1)
 
-def run_main():
+def run_main():  # pragma: no cover
     """entry point for launching app"""
     RunTestsCLI.run()
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     run_main()
