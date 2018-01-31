@@ -1,5 +1,6 @@
 """test_cli: make sure user experiance works as expected"""
 from os import path
+import logging
 import tempfile
 import uuid
 
@@ -11,6 +12,7 @@ import pytest
 import helpers
 from testhelpers import _version
 import testhelpers.RunTests as RunTests
+import testhelpers.exceptions as exceptions
 
 
 def test_parse_command():
@@ -26,6 +28,21 @@ def test_bad_command():
     """validate RunTests.parse_command throws expected errors"""
     with pytest.raises(plumbum.commands.processes.CommandNotFound):
         command, arguments = RunTests.RunTestsCLI.parse_command(None, 'garbage_command')
+
+def test_parse_command_exceptions():
+    """validate parse_command raises expected exceptions"""
+    class DummyCLI:
+        venv_python = None
+        venv_pip = None
+        logger = logging.getLogger()
+
+    dummy_cli = DummyCLI()
+
+    with pytest.raises(exceptions.VirtualenvException):
+        command, arguments = RunTests.RunTestsCLI.parse_command(dummy_cli, 'python -V')
+
+    with pytest.raises(exceptions.VirtualenvException):
+        command, arguments = RunTests.RunTestsCLI.parse_command(dummy_cli, 'pip install plumbum')
 
 def test_update_coveralls():
     """validate RunTests.update_coveralls_config behavior"""
