@@ -83,12 +83,13 @@ def test_update_coveralls():
         # Existing Retry
         RunTests.update_coveralls_config(
             dummy_coveralls,
-            dummy_token
+            str(uuid.uuid1())
         )
 
         with open(dummy_coveralls, 'r') as stream:
             coveralls_yaml = yaml.load(stream)
 
+        # Should be original token, not new token
         assert coveralls_yaml['repo_token'] == dummy_token
 
 class TestCLI:
