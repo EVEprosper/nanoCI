@@ -1,10 +1,12 @@
 """launcher/wrapper for executing CLI"""
 import atexit
-from os import path, linesep
+import collections
+from os import path
 import platform
 import logging
 
 from plumbum import cli, local
+import plumbum
 import emails
 
 import prosper.common.prosper_cli as p_cli
@@ -15,6 +17,9 @@ from . import _version
 from . import exceptions
 
 HERE = path.abspath(path.dirname(__file__))
+
+LocalResults = collections.namedtuple('LocalResults', ['retcode', 'stdout', 'stderr'])
+
 
 def update_coveralls_config(
         path_to_coverage,
@@ -191,6 +196,28 @@ class RunTestsCLI(p_cli.ProsperApplication):
         except Exception:
             self.logger.critical('Unable to execute test prep commands', exc_info=True)
             exit(1)
+
+
+        self.logger.info('Running Tests')
+        failed_logs = []
+        try:
+            for command in parse_command_list(self.config.get('TEST_STEPS', 'test_commands')):
+                self.logger.info('--`%s`', command)
+                local_command, arguments = self.parse_command(command)
+                retcode, stdout, stderr = local_command.run(arguments, retcode=[0, 1])
+                results = LocalResults(retcode, stdout, stderr)
+                if retcode != 0:
+                    self.logger.warning('Test step failed: `%s`: %s', command, results)
+                    failed_logs.append(results)
+                self.logger.debug(step_log)
+        except Exception:
+            self.logger.critical('Unable to execute test step commands', exc_info=True)
+            exit(1)
+
+        if failed_logs:
+            self.logger.info('Processing failures')
+
+
 
 def run_main():  # pragma: no cover
     """entry point for launching app"""

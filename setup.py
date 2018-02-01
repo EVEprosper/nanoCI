@@ -104,7 +104,7 @@ class TravisTest(PyTest):
         self.pytest_args = [
             'tests',
             '-rx',
-            '--junitxml=/tmp/datareader.xml',
+            '--junitxml=junit.xml',
             '--cov=' + __library_name__,
             '--cov-report=term-missing',
             '--cov-config=.coveragerc',

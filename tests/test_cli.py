@@ -14,6 +14,8 @@ from testhelpers import _version
 import testhelpers.RunTests as RunTests
 import testhelpers.exceptions as exceptions
 
+#def test_force_fail():
+#    assert False
 
 def test_parse_command():
     """validate RunTests.parse_command behavior"""
