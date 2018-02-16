@@ -1,21 +1,41 @@
 """test_cli: make sure user experiance works as expected"""
-from os import path
+from os import path, sep
 import logging
 import tempfile
 import uuid
+import sys
+import pip
 
 from plumbum import local
 import yaml
 import plumbum
 import pytest
+from parse import *
 
 import helpers
 from testhelpers import _version
 import testhelpers.RunTests as RunTests
 import testhelpers.exceptions as exceptions
 
-#def test_force_fail():
-#    assert False
+def test_build_virtualenv():
+    """validate RunTests.build_virtualenv works as expected"""
+    assert not path.isdir(helpers.VENV_NAME)
+
+    python_local, pip_local = RunTests.build_virtualenv(helpers.VENV_NAME, _atexit_register=False)
+
+    assert path.isdir(helpers.VENV_NAME)
+    assert isinstance(python_local, plumbum.commands.ConcreteCommand)
+    assert isinstance(pip_local, plumbum.commands.ConcreteCommand)
+
+    assert sep + helpers.VENV_NAME + sep in str(python_local)
+    assert sep + helpers.VENV_NAME + sep in str(pip_local)
+
+    python_version = python_local('-V').rstrip()
+    assert python_version == 'Python ' + sys.version.split()[:1][0]
+
+    pip_version = pip_local('-V').rstrip()
+    pip_info = parse('pip {version} from {path} ({python_version})', pip_version)
+    assert pip_info['version'] == pip.__version__
 
 def test_parse_command():
     """validate RunTests.parse_command behavior"""

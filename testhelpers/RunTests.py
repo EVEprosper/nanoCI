@@ -8,6 +8,9 @@ import logging
 from plumbum import cli, local
 import plumbum
 import emails
+import git
+from junit2htmlreport import parser
+from parse import *
 
 import prosper.common.prosper_cli as p_cli
 import prosper.common.prosper_logging as p_logging
@@ -101,6 +104,51 @@ def atexit_deactivate_venv(
 
     logger.info('venv cleanup complete!')
 
+def build_virtualenv(
+        venv_name,
+        which_python='python3',
+        _atexit_register=True,
+        logger=p_logging.DEFAULT_LOGGER,
+):
+    """build a virtualenv to run python in (do not use system python)
+
+    Note:
+        nukes-and-paves existing venv_name
+        registers atexit handle to delete testing venv at end of testpass
+
+    Args:
+        venv_name (str): name of test venv
+        which_python (str): path to desired python
+        atexit_register (bool): register an atexit handle to ease cleanup
+        logger (:obj:`logging.logger`): logging handle
+
+    Returns:
+        plumbum.local: python handle
+        plumbum.local: pip handle
+
+    """
+    logger.info('--removing existing venv %s', path.abspath(venv_name))
+    rm_log = local['rm']('-rf', venv_name)
+    logger.debug(rm_log)
+
+    logger.info('--creating fresh virtualenv')
+    venv_log = local['virtualenv'](venv_name, '-p', which_python)
+    logger.debug(venv_log)
+
+    logger.info('--mapping virtualenv')
+    venv_python = local[
+        path.join(local.cwd, venv_name, 'bin', 'python')
+    ]
+    venv_pip = local[
+        path.join(local.cwd, venv_name, 'bin', 'pip')
+    ]
+
+    if _atexit_register:  #pragma: no cover
+        logger.info('--registering atexit handle')
+        atexit.register(atexit_deactivate_venv, venv_name, local.cwd, logger=logger)
+
+    return venv_python, venv_pip
+
 class RunTestsCLI(p_cli.ProsperApplication):
     PROGNAME = _version.PROGNAME
     VERSION = _version.__version__
@@ -148,10 +196,12 @@ class RunTestsCLI(p_cli.ProsperApplication):
         local.cwd.chdir(project_path)
         self.logger.info('setting CWD: %s', local.cwd)
 
+        git_repo = git.Repo()
+
 
         self.logger.info('Updating from MAIN')
         try:
-            git_log = local['git']('pull', '--force', timeout=30)
+            git_log = git_repo.git.pull()
             self.logger.debug(git_log)
         except Exception:
             self.logger.critical('Unable to pull project from git', exc_info=True)
@@ -160,26 +210,11 @@ class RunTestsCLI(p_cli.ProsperApplication):
 
         self.logger.info('Starting Virtual Environment')
         try:
-            venv_name = self.config.get('TEST_STEPS', 'venv_name')
-            self.logger.info('--removing existing venv')
-            rm_log = local['rm']('-rf', venv_name)
-            self.logger.debug(rm_log)
-
-            self.logger.info('--creating fresh virtualenv')
-            venv_log = local['virtualenv'](
-                venv_name, '-p', self.config.get('TEST_STEPS', 'which_python'))
-            self.logger.debug(venv_log)
-
-            self.logger.info('--mapping virtualenv')
-            self.venv_python = local[
-                path.join(local.cwd, venv_name, 'bin', 'python')
-            ]
-            self.venv_pip = local[
-                path.join(local.cwd, venv_name, 'bin', 'pip')
-            ]
-
-            self.logger.info('--registering atexit handle')
-            atexit.register(atexit_deactivate_venv, venv_name, local.cwd, logger=self.logger)
+            self.venv_python, self.venv_pip = build_virtualenv(
+                self.config.get('TEST_STEPS', 'venv_name'),
+                which_python=self.config.get('TEST_STEPS', 'which_python'),
+                logger=self.logger,
+            )
         except Exception:
             self.logger.critical('Unable to create virtualenv for test', exc_info=True)
             exit(1)
@@ -216,6 +251,27 @@ class RunTestsCLI(p_cli.ProsperApplication):
 
         if failed_logs:
             self.logger.info('Processing failures')
+            commit_name = git_repo.head.commit.message
+
+            try:
+                self.logger.info('--parsing JUNIT')
+                # TODO: merge JUNIT in case of TOX reports
+                junit = parser.Junit(
+                    self.config.get('TEST_STEPS', 'junit_path')
+                )
+                results = junit.html()
+            except Exception:
+                self.logger.warning(
+                    'Unable to open junit results %s',
+                    self.config.get('TEST_STEPS', 'junit_path'),
+                    exc_info=True
+                )
+                results = '\n'.join(failed_logs)
+
+        else:
+            pass
+
+
 
 
 

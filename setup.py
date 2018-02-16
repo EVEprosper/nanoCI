@@ -138,12 +138,15 @@ setup(
         'plumbum',
         'coveralls[yaml]',
         'emails',
+        'junit2html',
+        'gitpython',
     ],
     tests_require=[
         'pytest',
         'pytest_cov',
         'pytest-xdist',
         'pyyaml',
+        'parse',
     ],
     extras_require={
         'dev':[
