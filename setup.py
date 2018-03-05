@@ -56,7 +56,7 @@ class PyTest(TestCommand):
     http://doc.pytest.org/en/latest/goodpractices.html#manual-integration
 
     """
-    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
+    user_options = [('pytest-args=', 'a', 'Arguments to pass to pytest')]
 
     def initialize_options(self):
         TestCommand.initialize_options(self)
@@ -81,8 +81,6 @@ class PyTest(TestCommand):
 
 class QuickTest(PyTest):
     """wrapper for quick-testing for devs"""
-    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
-
     def initialize_options(self):
         TestCommand.initialize_options(self)
         self.pytest_args = [
@@ -97,8 +95,6 @@ class QuickTest(PyTest):
 
 class TravisTest(PyTest):
     """wrapper for quick-testing for devs"""
-    user_options = [('pytest-args=', 'a', "Arguments to pass to pytest")]
-
     def initialize_options(self):
         TestCommand.initialize_options(self)
         self.pytest_args = [
@@ -119,14 +115,14 @@ setup(
     version=get_version(__library_name__),
     license='MIT',
     classifiers=[
-        'Programming Language :: Python :: 3.6'
+        'Programming Language :: Python :: 3.6',
     ],
     keywords='testing coverage automation cli ',
     packages=find_packages(),
     include_package_data=True,
     package_data={
         '': ['LICENSE', 'README.rst'],
-        __library_name__: ['version.txt', 'app.cfg']
+        __library_name__: ['version.txt', 'app.cfg'],
     },
     entry_points={
         'console_scripts': [
@@ -159,5 +155,5 @@ setup(
         'test':PyTest,
         'fast': QuickTest,
         'travis': TravisTest,
-    }
+    },
 )

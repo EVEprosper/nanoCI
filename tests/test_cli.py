@@ -36,6 +36,7 @@ def test_build_virtualenv():
     pip_version = pip_local('-V').rstrip()
     pip_info = parse('pip {version} from {path} ({python_version})', pip_version)
     assert pip_info['version'] == pip.__version__
+    assert False
 
 def test_parse_command():
     """validate RunTests.parse_command behavior"""

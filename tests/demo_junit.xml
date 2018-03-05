@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="1" name="pytest" skips="0" tests="8" time="9.854"><testcase classname="tests.test_cli" file="tests/test_cli.py" line="19" name="test_build_virtualenv" time="6.8392555713653564"><failure message="assert False">def test_build_virtualenv():
+        &quot;&quot;&quot;validate RunTests.build_virtualenv works as expected&quot;&quot;&quot;
+        assert not path.isdir(helpers.VENV_NAME)
+    
+        python_local, pip_local = RunTests.build_virtualenv(helpers.VENV_NAME, _atexit_register=False)
+    
+        assert path.isdir(helpers.VENV_NAME)
+        assert isinstance(python_local, plumbum.commands.ConcreteCommand)
+        assert isinstance(pip_local, plumbum.commands.ConcreteCommand)
+    
+        assert sep + helpers.VENV_NAME + sep in str(python_local)
+        assert sep + helpers.VENV_NAME + sep in str(pip_local)
+    
+        python_version = python_local(&apos;-V&apos;).rstrip()
+        assert python_version == &apos;Python &apos; + sys.version.split()[:1][0]
+    
+        pip_version = pip_local(&apos;-V&apos;).rstrip()
+        pip_info = parse(&apos;pip {version} from {path} ({python_version})&apos;, pip_version)
+        assert pip_info[&apos;version&apos;] == pip.__version__
+&gt;       assert False
+E       assert False
+
+tests/test_cli.py:39: AssertionError</failure></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="40" name="test_parse_command" time="0.07655882835388184"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="49" name="test_bad_command" time="0.0035817623138427734"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="54" name="test_parse_command_exceptions" time="0.0017142295837402344"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="69" name="test_parse_command_list" time="0.0013248920440673828"></testcase><testcase classname="tests.test_cli" file="tests/test_cli.py" line="87" name="test_update_coveralls" time="0.0869288444519043"><system-out>/var/folders/hl/47k_3v752qv5fsxw45x8zb5h0000gn/T/tmpjrt7pz5i/.coveralls.yml
+</system-out></testcase><testcase classname="tests.test_cli.TestCLI" file="tests/test_cli.py" line="121" name="test_help" time="0.6419730186462402"></testcase><testcase classname="tests.test_cli.TestCLI" file="tests/test_cli.py" line="125" name="test_version" time="0.6995880603790283"></testcase></testsuite>
